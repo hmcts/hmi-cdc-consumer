@@ -1,0 +1,118 @@
+{
+  "provider": {
+    "name": "SandL_API"
+  },
+  "consumer": {
+    "name": "HMI_API"
+  },
+  "interactions": [
+    {
+      "description": "Provider returns user details to Annotation API",
+      "request": {
+        "method": "GET",
+        "path": "/employee",
+        "query": {
+          "id": [
+            "1"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset\u003dUTF-8"
+        },
+        "body": {
+          "firstName": "Lokesh",
+          "lastName": "Gupta",
+          "id": 1,
+          "email": "howtodoinjava@gmail.com"
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.firstName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.lastName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.email": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset\u003d[\\w\\-]+)?"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "An employee exists"
+        }
+      ]
+    },
+    {
+      "description": "Provider updates the details to SandL",
+      "request": {
+        "method": "POST",
+        "path": "/employee/1",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "response": {
+        "status": 201
+      },
+      "providerStates": [
+        {
+          "name": "An employee should be updated",
+          "params": {
+            "email": "pats_john@hotmail.com",
+            "firstName": "Trial Name",
+            "id": "1",
+            "lastName": "Trial Surname"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "3.6.15"
+    }
+  }
+}
