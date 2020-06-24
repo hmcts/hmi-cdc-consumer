@@ -315,6 +315,14 @@ def getCheckedOutGitCommitHash() {
 }
 
 pact {
+
+  reports {
+    defaultReports() // adds the standard console output
+
+    markdown // report in markdown format
+    json // report in json format
+  }
+
   publish {
     pactDirectory = 'pacts'
     pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'

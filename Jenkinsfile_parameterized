@@ -18,7 +18,7 @@ properties([
 
 def type = "java"
 def product = "hmi"
-def component = "cdc"
+def component = "cdc_verifier"
 
 env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
 
@@ -29,6 +29,6 @@ def vaultOverrides = [
 
 withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox') {
     enablePactAs([
-        AppPipelineDsl.PactRoles.CONSUMER
+        AppPipelineDsl.PactRoles.PROVIDER
     ])
 }
