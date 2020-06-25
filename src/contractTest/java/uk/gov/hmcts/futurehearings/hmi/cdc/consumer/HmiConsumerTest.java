@@ -1,11 +1,5 @@
 package uk.gov.hmcts.futurehearings.hmi.cdc.consumer;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Map;
-import java.util.TreeMap;
-
 import au.com.dius.pact.consumer.MockServer;
 import au.com.dius.pact.consumer.Pact;
 import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
@@ -25,17 +19,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Map;
+import java.util.TreeMap;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
-public class HMIConsumerTest {
+public class HmiConsumerTest {
 
     private static final String EMPLOYEE_DETAILS_URL = "/employee";
     private static final String EMPLOYEE_1_DETAILS_URL = "/employee/1";
     private static String ACCESS_TOKEN = "111";
 
     @Pact(provider = "SandL_API", consumer = "HMI_API")
-    public RequestResponsePact executeGetEmployeeDetailsAndGet200
-            (PactDslWithProvider builder) {
+    public RequestResponsePact executeGetEmployeeDetailsAndGet200(
+                                        PactDslWithProvider builder) {
 
         Map<String, String> headers = Maps.newHashMap();
         headers.put(HttpHeaders.AUTHORIZATION, ACCESS_TOKEN);
@@ -67,7 +67,7 @@ public class HMIConsumerTest {
                         //.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                         .log().all()
                         .when()
-                        .get(mockServer.getUrl() + EMPLOYEE_DETAILS_URL+"?id=1")
+                        .get(mockServer.getUrl() + EMPLOYEE_DETAILS_URL + "?id=1")
                         .then()
                         .statusCode(200)
                         .and()
@@ -78,11 +78,10 @@ public class HMIConsumerTest {
         verifyResponseObject(actualResponseBody);
     }
 
-   @Pact(provider = "SandL_API", consumer = "HMI_API")
+    @Pact(provider = "SandL_API", consumer = "HMI_API")
     public RequestResponsePact executePostEmployeeDetailsAndReceive200(PactDslWithProvider builder) {
-
-       Map<String, String> headers = Maps.newHashMap();
-       headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        Map<String, String> headers = Maps.newHashMap();
+        headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         Map<String, Object> params = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         params.put("id", "1");
@@ -105,7 +104,6 @@ public class HMIConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executePostEmployeeDetailsAndReceive200")
     public void should_post_employee_details_for_an_update(MockServer mockServer) throws JSONException {
-
 
         String actualResponseBody =
                 SerenityRest
@@ -137,7 +135,6 @@ public class HMIConsumerTest {
         assertEquals("howtodoinjava@gmail.com", response.getString("email"));
 
     }
-
 
     private PactDslJsonBody createUserDetailsResponse() {
 
