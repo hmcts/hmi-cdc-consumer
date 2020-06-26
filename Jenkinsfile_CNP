@@ -51,28 +51,34 @@ def vaultOverrides = [
         'spreview': 'saat'
 ]
 
-withPipeline(type , product, component) {
-    //enableDbMigration('em-anno')
-    //overrideVaultEnvironments(vaultOverrides)
-    //loadVaultSecrets(secrets)
-    disableLegacyDeployment()
-    //enableAksStagingDeployment()
-    /*after('test') {
-        sh '''
-        curl https://raw.githubusercontent.com/hmcts/reform-api-docs/master/bin/publish-swagger-docs.sh > publish-swagger-docs.sh
-        sh ./publish-swagger-docs.sh
-         '''
-    }*/
+//withPipeline(type , product, component) {
+//    enableDbMigration('em-anno')
+//    overrideVaultEnvironments(vaultOverrides)
+//    loadVaultSecrets(secrets)
+//    disableLegacyDeployment()
+//    enableAksStagingDeployment()
+//    after('test') {
+//        sh '''
+//        curl https://raw.githubusercontent.com/hmcts/reform-api-docs/master/bin/publish-swagger-docs.sh > publish-swagger-docs.sh
+//        sh ./publish-swagger-docs.sh
+//         '''
+//    }
 
-    //after('functionalTest:preview') {
-      //steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
-    //}
+//    after('functionalTest:preview') {
+//      steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+//    }
 
-    //after('functionalTest:aat') {
-      //  steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
-    //}
+//    after('functionalTest:aat') {
+//        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+//    }
 
-    enablePactAs([
-            AppPipelineDsl.PactRoles.CONSUMER
-    ])
+//    enablePactAs([
+//            AppPipelineDsl.PactRoles.CONSUMER
+//    ])
+//}
+
+withPactTestOnlyPipeline(type, product, component) {
+  enablePactAs([
+    AppPipelineDsl.PactRoles.CONSUMER
+  ])
 }
